@@ -5,7 +5,10 @@ fn main() {
     println!("Welcome to the Guessing Game!");
 
     let name = prompt("What's your name?");
-    println!("Welcome to the Guessing Game, {}.", name);
+    println!("\nWelcome to the Guessing Game, {}.", name);
+
+    let guess = prompt("What number am I thinking of?");
+    dbg!(guess);
 }
 
 fn prompt(prompt: &str) -> String {
