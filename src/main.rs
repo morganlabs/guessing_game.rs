@@ -1,7 +1,14 @@
+extern crate rand;
+
+use rand::Rng;
 use std::io;
 use std::io::Write; // <--- bring flush() into scope
 
 fn main() {
+    // Generate a Random Number
+    let rand_num = rand::thread_rng().gen_range(1..=100);
+    dbg!(rand_num);
+
     println!("Welcome to the Guessing Game!");
 
     let name = prompt("What's your name?");
