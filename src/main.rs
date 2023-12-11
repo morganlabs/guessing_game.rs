@@ -51,14 +51,29 @@ fn get_name() -> String {
 
 fn take_guess(rand_num: u8, attempt: u8) -> i8 {
     let guess = prompt(format!("What number am I thinking of? (Attempt {}/3)", attempt).as_str());
+
+    // Number is negative, therefore invalid
+    if guess.starts_with("-") {
+        return -1;
+    }
+
     let guess: u8 = match guess.parse() {
         Ok(v) => v,
-        Err(_) => {
-            println!("Please only enter a number!");
-            return take_guess(rand_num, attempt);
+        Err(err) => {
+            let kind = err.kind();
+
+            // Check if the u8 has overflowed, or if the user has entered text
+            match kind {
+                std::num::IntErrorKind::PosOverflow => return 1,
+                _ => {
+                    println!("Please only enter a number!");
+                    return take_guess(rand_num, attempt);
+                }
+            }
         }
     };
 
+    // Finally, compare the guess to the random number
     match guess.cmp(&rand_num) {
         Ordering::Less => -1,
         Ordering::Greater => 1,
