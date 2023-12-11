@@ -8,11 +8,10 @@ use std::io::Write; // <--- bring flush() into scope
 fn main() {
     // Generate a Random Number
     let rand_num: u8 = rand::thread_rng().gen_range(1..=100);
-    dbg!(rand_num);
 
     println!("Welcome to the Guessing Game!");
 
-    let name = prompt("What's your name?");
+    let name = get_name();
     println!("\nWelcome to the Guessing Game, {}.", name);
 
     let mut attempts: u8 = 1;
@@ -38,6 +37,16 @@ fn main() {
         attempts += 1;
     }
     println!("Too bad! The number was {}", rand_num);
+}
+
+fn get_name() -> String {
+    let name = prompt("What's your name?");
+
+    if name == "" {
+        return get_name();
+    }
+
+    return name;
 }
 
 fn take_guess(rand_num: u8, attempt: u8) -> i8 {
