@@ -1,6 +1,7 @@
 extern crate rand;
 
 use rand::Rng;
+use std::cmp::Ordering;
 use std::io;
 use std::io::Write; // <--- bring flush() into scope
 
@@ -15,7 +16,14 @@ fn main() {
     println!("\nWelcome to the Guessing Game, {}.", name);
 
     let guess = prompt("What number am I thinking of?");
+    let guess: u32 = guess.parse().expect("Could not parse guess to type u32");
     dbg!(guess);
+
+    match guess.cmp(&rand_num) {
+        Ordering::Less => println!("Too low!"),
+        Ordering::Greater => println!("Too high!"),
+        Ordering::Equal => println!("Correct!"),
+    }
 }
 
 fn prompt(prompt: &str) -> String {
